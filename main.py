@@ -2,12 +2,13 @@
 
 import discord
 import modules.commands as com
-import sqlite3
 import asyncio
 import aiohttp
 import platform
 
 client = discord.Client()
+
+dmid = '260146161975820288'
 
 @client.event
 async def on_ready():
@@ -24,6 +25,15 @@ async def on_ready():
 async def on_message(message):
     if message.content == '*ping':
         await client.send_message(message.channel, com.ping())
+    elif message.content.startswith('*getstats'):
+        if len(message) == 9:
+            await client.send_message(message.channel, com.getstats(message.author.id))
+        elif message.author.id == dmid:
+            await client.send_message(message.channel, com.getstats(shlex.split(message.content)[1]))
+        else:
+            await client.send_message(message.channel, 'Недостаточно прав!')
+    elif message.content == '*mkchar':
+        await client.send_message(message.channel, com.mkchar(message.author.id))
 
 with open('token.txt') as f:
     token = f.read()
