@@ -26,7 +26,7 @@ async def on_message(message):
     if message.content == '*ping':
         await client.send_message(message.channel, com.ping())
     elif message.content.startswith('*getstats'):
-        if len(message) == 9:
+        if len(message.content) == 9:
             await client.send_message(message.channel, com.getstats(message.author.id))
         elif message.author.id == dmid:
             await client.send_message(message.channel, com.getstats(shlex.split(message.content)[1]))
