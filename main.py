@@ -82,7 +82,7 @@ async def on_message(message):
             os.execv(__file__, sys.argv)
         else:
             await client.send_message(message.channel, 'Недостаточно прав!')
-    elif message.content.startswith('*off'):
+    elif message.content.startswith('*shutdown'):
         if message.author.id == dmid:
             raise SystemExit
         else:
