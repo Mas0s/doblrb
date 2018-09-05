@@ -78,15 +78,17 @@ async def on_message(message):
         else:
             await client.send_message(message.channel, man['man'])
     elif message.content.startswith('*restart'):
-        if message.author.id == dmid:
-            os.execv(__file__, sys.argv)
-        else:
-            await client.send_message(message.channel, 'Недостаточно прав!')
+        if len(shplit(message.content)) == 1:
+            if message.author.id == dmid:
+                os.execv(__file__, sys.argv)
+            else:
+                await client.send_message(message.channel, 'Недостаточно прав!')
     elif message.content.startswith('*shutdown'):
-        if message.author.id == dmid:
-            raise SystemExit
-        else:
-            await client.send_message(message.channel, 'Недостаточно прав!')
+        if len(shplit(message.content)) == 1:
+            if message.author.id == dmid:
+                raise SystemExit
+            else:
+                await client.send_message(message.channel, 'Недостаточно прав!')
 
 with open('token.txt') as f:
     token = f.read()
