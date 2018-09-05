@@ -1,1 +1,1 @@
-discord
+Rapptz/discord.py
