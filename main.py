@@ -5,6 +5,8 @@ import modules.commands as com
 import asyncio
 from shlex import split as shplit
 from platform import python_version
+import os
+import sys
 
 client = discord.Client()
 
