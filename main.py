@@ -17,7 +17,7 @@ man = {
     'man': 'Syntax: `*man <command>`',
     'putpoint': 'Syntax: `*putpoint <stat> [number]`',
     'delchar': 'Syntax: `*delchar`',
-    'man': 'Syntax: `*man [command]`'  
+    'man': 'Syntax: `*man [command]`'
 }
 
 @client.event
@@ -77,7 +77,18 @@ async def on_message(message):
             await client.send_message(message.channel, man[shplit(message.content)[1]])
         else:
             await client.send_message(message.channel, man['man'])
-
+    elif message.content.startswith('*restart'):
+        if len(shplit(message.content)) == 1:
+            if message.author.id == dmid:
+                os.execv(__file__, sys.argv)
+            else:
+                await client.send_message(message.channel, 'Недостаточно прав!')
+    elif message.content.startswith('*shutdown'):
+        if len(shplit(message.content)) == 1:
+            if message.author.id == dmid:
+                raise SystemExit
+            else:
+                await client.send_message(message.channel, 'Недостаточно прав!')
 
 with open('token.txt') as f:
     token = f.read()
