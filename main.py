@@ -15,7 +15,8 @@ man = {
     'getstats': 'Syntax: `*getstats`',
     'mkchar': 'Syntax: `*mkchar`',
     'man': 'Syntax: `*man <command>`',
-    'putpoint': 'Syntax: `*putpoint <stat> [number]`'
+    'putpoint': 'Syntax: `*putpoint <stat> [number]`',
+    'delchar': 'Syntax: `*delchar`'
 }
 
 @client.event
@@ -58,6 +59,16 @@ async def on_message(message):
             await client.send_message(message.channel, com.putpoint(message.author.id, shplit(message.content)[1], int(shplit(message.content)[2])))
         else:
             await client.send_message(message.channel, man['putpoint'])
+    elif message.content.startswith('*delchar'):
+        if len(shplit(message.content)) == 1:
+            await client.send_message(message.channel, com.delchar(message.author.id))
+        elif len(shplit(message.content)) == 2:
+            if message.author.id == dmid:
+                await client.send_message(message.channel, com.delchar(shplit(message.connect)[1]))
+            else:
+                await client.send_message(message.channel, 'Недостаточно прав!')
+        else:
+            await client.send_message(message.channel, man['delchar'])
     # TODO: man command
 with open('token.txt') as f:
     token = f.read()
