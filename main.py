@@ -14,8 +14,10 @@ man = {
     'ping': 'Syntax: `*ping`',
     'getstats': 'Syntax: `*getstats`',
     'mkchar': 'Syntax: `*mkchar`',
-    'man': 'Syntax: `*man [command]`',
-    'putpoint': 'Syntax: `*putpoint <stat> [amount]`'
+    'man': 'Syntax: `*man <command>`',
+    'putpoint': 'Syntax: `*putpoint <stat> [number]`',
+    'delchar': 'Syntax: `*delchar`',
+    'man': 'Syntax: `*man [command]`'  
 }
 
 @client.event
@@ -58,6 +60,16 @@ async def on_message(message):
             await client.send_message(message.channel, com.putpoint(message.author.id, shplit(message.content)[1], int(shplit(message.content)[2])))
         else:
             await client.send_message(message.channel, man['putpoint'])
+    elif message.content.startswith('*delchar'):
+        if len(shplit(message.content)) == 1:
+            await client.send_message(message.channel, com.delchar(message.author.id))
+        elif len(shplit(message.content)) == 2:
+            if message.author.id == dmid:
+                await client.send_message(message.channel, com.delchar(shplit(message.connect)[1]))
+            else:
+                await client.send_message(message.channel, 'Недостаточно прав!')
+        else:
+            await client.send_message(message.channel, man['delchar'])
     elif message.content.startswith('*man'):
         if len(shplit(message.content)) == 1:
             await client.send_message(message.channel, "Commands: ```\n*{}```".format('\n*'.join(man)))
@@ -65,6 +77,7 @@ async def on_message(message):
             await client.send_message(message.channel, man[shplit(message.content)[1]])
         else:
             await client.send_message(message.channel, man['man'])
+
 
 with open('token.txt') as f:
     token = f.read()
