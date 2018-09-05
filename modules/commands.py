@@ -1,15 +1,5 @@
 import sqlite3
 
-#class plr():
-#    def __init__(self):
-#        self.level = 0
-#        self.strength = 0
-#        self.dexterity = 0
-#        self.intelligence = 0
-#        self.charpts = 1
-#        self.maxhp = 250
-#        self.hp = self.maxhp
-
 def ping():
     return 'Pong!'
 
