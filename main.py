@@ -65,6 +65,7 @@ async def on_message(message):
             await client.send_message(message.channel, man[shplit(message.content)[1]])
         else:
             await client.send_message(message.channel, man['man'])
+
 with open('token.txt') as f:
     token = f.read()
 token = token[:-1]
