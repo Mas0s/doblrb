@@ -72,3 +72,12 @@ WHERE id = ?'''.format(statList[stat]),(stats[0],stats[1],plid))
 {0}         {1[0]} (+{2})
 Stat Points {1[1]} (-{2})```""".format(upstat[stat],stats,num)
     return stats
+
+def delchar(plid):
+    data = sqlite3.connect('database.db')
+    c = data.cursor()
+    c.execute('DELETE * FROM players WHERE id=?', [plid])
+    data.commit()
+    data.close()
+    os.remove('/inv/{}.db'.format(plid))
+    return "<@{}>'s character was successfully deleted".format(plid)
