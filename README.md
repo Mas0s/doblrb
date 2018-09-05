@@ -1,2 +1,6 @@
-# doblrb
-Dungeon of Bad Luck: Rebirth
+# DoBL:RB
+Dungeon of Bad Luck: Rebirth ~~is a~~ will be a text multiplayer turn-based game running through a Discord bot.
+
+## Dependencies
+1. Python 3
+2. discord.py

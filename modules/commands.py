@@ -1,5 +1,5 @@
 import sqlite3
-import os
+from os import path
 
 statList = ['strength','dexterity','intelligence']
 
@@ -20,7 +20,7 @@ def mkchar(plid):
     c.execute('INSERT INTO players VALUES (?,?,?,?,?,?,?,?)', stats)
     data.commit()
     data.close()
-    inv = sqlite3.connect(os.path.join('inv','{}.db'.format(plid)))
+    inv = sqlite3.connect(path.join('inv','{}.db'.format(plid)))
     c = inv.cursor()
     c.execute('CREATE TABLE inv (id INTEGER)')
     inv.commit()
