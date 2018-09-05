@@ -14,8 +14,8 @@ man = {
     'ping': 'Syntax: `*ping`',
     'getstats': 'Syntax: `*getstats`',
     'mkchar': 'Syntax: `*mkchar`',
-    'man': 'Syntax: `*man <command>`',
-    'putpoint': 'Syntax: `*putpoint <stat> [number]`'
+    'man': 'Syntax: `*man [command]`',
+    'putpoint': 'Syntax: `*putpoint <stat> [amount]`'
 }
 
 @client.event
@@ -58,7 +58,13 @@ async def on_message(message):
             await client.send_message(message.channel, com.putpoint(message.author.id, shplit(message.content)[1], int(shplit(message.content)[2])))
         else:
             await client.send_message(message.channel, man['putpoint'])
-    # TODO: man command
+    elif message.content.startswith('*man'):
+        if len(shplit(message.content)) == 1:
+            await client.send_message(message.channel, "Commands: ```\n*{}```".format('\n*'.join(man)))
+        elif len(shplit(message.content)) == 2:
+            await client.send_message(message.channel, man[shplit(message.content)[1]])
+        else:
+            await client.send_message(message.channel, man['man'])
 with open('token.txt') as f:
     token = f.read()
 token = token[:-1]
