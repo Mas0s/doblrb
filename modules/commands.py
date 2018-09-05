@@ -1,5 +1,5 @@
 import sqlite3
-from os import path
+import os
 
 statList = ['strength','dexterity','intelligence']
 
@@ -20,7 +20,7 @@ def mkchar(plid):
     c.execute('INSERT INTO players VALUES (?,?,?,?,?,?,?,?)', stats)
     data.commit()
     data.close()
-    inv = sqlite3.connect(path.join('inv','{}.db'.format(plid)))
+    inv = sqlite3.connect(os.path.join('inv','{}.db'.format(plid)))
     c = inv.cursor()
     c.execute('CREATE TABLE inv (id INTEGER)')
     inv.commit()
@@ -76,8 +76,8 @@ Stat Points {1[1]} (-{2})```""".format(upstat[stat],stats,num)
 def delchar(plid):
     data = sqlite3.connect('database.db')
     c = data.cursor()
-    c.execute('DELETE * FROM players WHERE id=?', [plid])
+    c.execute('DELETE FROM players WHERE id=?', [plid])
     data.commit()
     data.close()
-    os.remove('/inv/{}.db'.format(plid))
-    return "<@{}>'s character was successfully deleted".format(plid)
+    os.remove(os.path.join('inv','{}.db'.format(plid)))
+    return "<@{}>'s character has been deleted.".format(plid)
