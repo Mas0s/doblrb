@@ -24,6 +24,11 @@ man = {
 
 @client.event
 async def on_ready():
+    if os.path.isfile('.doblrest'):
+        with open('.doblrest','r') as tmp:
+            chan = tmp.read()
+        os.remove('.doblrest')
+        await client.send_message(discord.Object(chan),'Restart successul.')
     print('Logged in as '+client.user.name+' (ID:'+client.user.id+') | Connected to '+str(len(client.servers))+' servers | Connected to '+str(len(set(client.get_all_members())))+' users')
     print('--------')
     print('Current Discord.py Version: {} | Current Python Version: {}'.format(discord.__version__, python_version()))
@@ -47,7 +52,7 @@ async def on_message(message):
             if message.author.id == dmid:
                 await client.send_message(message.channel, com.getstats(shplit(message.content)[1]))
             else:
-                await client.send_message(message.channel, 'Недостаточно прав!')
+                await client.send_message(message.channel, 'Access denied!')
         else:
             await client.send_message(message.channel, man['getstats'])
     elif message.content.startswith('*mkchar'):
@@ -69,7 +74,7 @@ async def on_message(message):
             if message.author.id == dmid:
                 await client.send_message(message.channel, com.delchar(shplit(message.connect)[1]))
             else:
-                await client.send_message(message.channel, 'Недостаточно прав!')
+                await client.send_message(message.channel, 'Access denied!')
         else:
             await client.send_message(message.channel, man['delchar'])
     elif message.content.startswith('*man'):
@@ -82,15 +87,18 @@ async def on_message(message):
     elif message.content.startswith('*restart'):
         if len(shplit(message.content)) == 1:
             if message.author.id == dmid:
+                with open('.doblrest','w') as tmp:
+                    tmp.write(message.channel.id)
                 os.execv(__file__, sys.argv)
             else:
-                await client.send_message(message.channel, 'Недостаточно прав!')
+                await client.send_message(message.channel, 'Access denied!')
     elif message.content.startswith('*shutdown'):
         if len(shplit(message.content)) == 1:
             if message.author.id == dmid:
+                await client.send_message(message.channel, 'Shutting down...')
                 raise SystemExit
             else:
-                await client.send_message(message.channel, 'Недостаточно прав!')
+                await client.send_message(message.channel, 'Access denied!')
 
 with open('token.txt') as f:
     token = f.read()
