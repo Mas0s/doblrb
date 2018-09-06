@@ -2,6 +2,7 @@
 
 import discord
 import modules.commands as com
+import modules.service as srv
 import asyncio
 from shlex import split as shplit
 from platform import python_version
@@ -62,7 +63,16 @@ async def on_message(message):
             await client.send_message(message.channel, man['putpoint'])
     elif message.content.startswith('*delchar'):
         if len(shplit(message.content)) == 1:
-            await client.send_message(message.channel, com.delchar(message.author.id))
+            await srv.checkchar(message.author.id)
+            if True:
+                await client.send_message(message.channel, 'Are you sure that you want to delete the character? (Yes/No)')
+                responce = client.wait_for_message(author = message.author, timeout = 15)
+                if responce.clean_content.lower() == 'yes':
+                    await client.send_message(message.channel, com.delchar(message.author.id))
+                else:
+                    await client.send_message(message.channel, 'Action canceled.')
+            else:
+                await client.send_message(message.channel, '<@{}> doesn\'t have a character.'.format(message.author.id))
         elif len(shplit(message.content)) == 2:
             if message.author.id == dmid:
                 await client.send_message(message.channel, com.delchar(shplit(message.connect)[1]))
@@ -89,7 +99,6 @@ async def on_message(message):
                 raise SystemExit
             else:
                 await client.send_message(message.channel, 'Недостаточно прав!')
-
 with open('token.txt') as f:
     token = f.read()
 token = token[:-1]
