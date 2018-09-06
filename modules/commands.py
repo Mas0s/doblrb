@@ -84,3 +84,17 @@ def delchar(plid):
     data.close()
     os.remove(os.path.join('inv','{}.db'.format(plid)))
     return "<@{}>'s character has been deleted.".format(plid)
+
+def showinventory(plid):
+    data = sqlite3.connect('database.db')
+    c = data.cursor()
+    if c.fetchone is None:
+        return '<@{}> doesn\'t have a character.'.format(plid)
+    data.commit()
+    data.close()
+    inv = sqlite3.connect(os.path.join('inv', '{}.db'.format(plid)))
+    c = inv.cursor()
+    if c.fetchone is None:
+        return '<@{}> doesnt\'t have an items.'.format(plid)
+    else:
+        return '```Work In Progress```'
