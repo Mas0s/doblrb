@@ -95,7 +95,7 @@ def delchar(plid):
 #    data.commit()
 #    data.close()
 #    inv = sqlite3.connect(os.path.join('inv', '{}.db'.format(plid)))
-#    c = inv.cursor()    
+#    cursor = inv.cursor()    
 #    if c.fetchone is None:
 #        return '<@{}> doesnt\'t have an items.'.format(plid)
 #    else:
