@@ -102,7 +102,7 @@ async def on_message(message):
                 raise SystemExit
             else:
                 await client.send_message(message.channel, 'Access denied!')
-    elif message.content.startswith('*enter'):
+    elif message.content.startswith('*enter'): # +init tracker
         if message.author.id in ingame:
             await client.send_message(message.channel, 'You\'re already in the Dungeon!')
         else:
@@ -130,7 +130,7 @@ async def on_message(message):
                             if curTurn >= len(ingame):
                                 curTurn-=len(ingame)
                         else:
-                            if turn == 'L': #тут ничего нет, он выводит Invalid turn, значит, до сюда даже не доходит
+                            if turn == 'L':
                                 await client.send_message(message.channel, '<@{}> has left the Dungeon of Bad Luck.'.format(ingame[curTurn]))
                                 ingame.pop(curTurn)
                                 if len(ingame) == 0:
