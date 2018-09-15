@@ -1,6 +1,6 @@
 import sqlite3
 import os
-import extralib as ext
+import modules.extralib as ext
 
 statList = ['strength','dexterity','intelligence']
 
