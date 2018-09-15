@@ -77,11 +77,15 @@ async def on_message(message):
 			ext.plExist()
 			if True:
 				await client.send_message(message.channel, 'Are you sure that you wanna delete the character? (Yes/No)')
-				responce = client.wait_for_message(author = message.author, timeout = 15)
-				if responce.clear_content.lower() == 'yes':
+				response = client.wait_for_message(author = message.author, timeout = 15)
+				if response.clear_content.lower() == 'yes':
 					await client.send_message(message.channel, com.delchar(message.author.id))
-				else:
+				elif response.clear_content.lower() == 'no':
 					await client.send_message(message.channel, 'Action canceled.')
+				elif response is None:
+					await client.send_message(message.channel, 'Action timeout.')
+				else:
+					await client.send_message(message.channel, 'Wrong chosen actions.')
         elif len(shplit(message.content)) == 2:
             if message.author.id == dmid or "Dungeon Keeper" in [y.name.lower() for y in message.author.roles]:
 				await client.send_message(message.channel, com.delchar(message.author.id))
