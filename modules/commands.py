@@ -22,7 +22,7 @@ def mkchar(plid):
     data.close()
     inv = sqlite3.connect(os.path.join('inv','{}.db'.format(plid)))
     c = inv.cursor()
-    c.execute('CREATE TABLE inv (id INTEGER)')
+    c.execute('CREATE TABLE inv (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, name TEXT NOT NULL, type TEXT NOT NULL, maxDamage INTEGER, damageType TEXT)')
     inv.commit()
     inv.close()
     return '<@{}>\'s character has been created.'.format(plid)
