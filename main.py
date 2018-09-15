@@ -2,6 +2,7 @@
 
 import discord
 import modules.commands as com
+import modules.extralib as ext
 import asyncio
 from shlex import split as shplit
 from platform import python_version
@@ -9,7 +10,6 @@ import os
 import sys
 
 client = discord.Client()
-
 dmid = '260146161975820288'
 
 man = {
@@ -21,6 +21,8 @@ man = {
     'delchar': 'Syntax: `*delchar`',
     'man': 'Syntax: `*man [command]`'
 }
+
+ingame = []
 
 @client.event
 async def on_ready():
@@ -40,6 +42,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    global ingame
     if message.content.startswith('*ping'):
         if len(shplit(message.content)) == 1:
             await client.send_message(message.channel, com.ping())
@@ -99,6 +102,47 @@ async def on_message(message):
                 raise SystemExit
             else:
                 await client.send_message(message.channel, 'Access denied!')
+    elif message.content.startswith('*enter'):
+        if message.author.id in ingame:
+            await client.send_message(message.channel, 'You\'re already in the Dungeon!')
+        else:
+            await client.send_message(message.channel, '<@{}> has entered the Dungeon of Bad Luck...'.format(message.author.id))
+            ingame.append(message.author.id)
+            if len(ingame) == 1:
+                genNpc = 0
+                curTurn = 0
+                while True:
+                    if ingame[curTurn][0] != 'n':
+                        actions = ['n','L']
+                        await client.send_message(message.channel, ext.buildActions(ingame[curTurn], actions))
+                        resp = await client.wait_for_message(author=await client.get_user_info(ingame[curTurn]), channel=message.channel, check=lambda x: True if len(x.content) == 1 else False, timeout=60)
+                        turn = resp.content
+                        if resp is None:
+                            await client.send_message(resp.channel, 'Timeout.')
+                            await client.send_message(resp.channel, '<@{}> does nothing.'.format(ingame[curTurn]))
+                            curTurn+=1
+                            if curTurn >= len(ingame):
+                                curTurn-=len(ingame)
+                        elif turn not in actions:
+                            await client.send_message(resp.channel, 'Invalid turn.')
+                            await client.send_message(resp.channel, '<@{}> does nothing.'.format(ingame[curTurn]))
+                            curTurn+=1
+                            if curTurn >= len(ingame):
+                                curTurn-=len(ingame)
+                        else:
+                            if turn == 'L': #тут ничего нет, он выводит Invalid turn, значит, до сюда даже не доходит
+                                await client.send_message(message.channel, '<@{}> has left the Dungeon of Bad Luck.'.format(ingame[curTurn]))
+                                ingame.pop(curTurn)
+                                if len(ingame) == 0:
+                                    break
+                                if curTurn >= len(ingame):
+                                    curTurn-=len(ingame)
+                            else:
+                                if turn == 'n':
+                                    await client.send_message(resp.channel, '<@{}> does nothing.'.format(ingame[curTurn]))
+                                curTurn+=1
+                                if curTurn >= len(ingame):
+                                    curTurn-=len(ingame)
 
 with open('token.txt') as f:
     token = f.read()
