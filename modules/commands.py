@@ -96,7 +96,7 @@ def delchar(plid):
 #    data.close()
 #    inv = sqlite3.connect(os.path.join('inv', '{}.db'.format(plid)))
 #    cursor = inv.cursor()
-#    cursor.execute('SELECT * FROM players WHERE id=?', [plid])
+#    cursor.execute('SELECT * FROM inv')
 #    if cursor.fetchone() is None:
 #        return '<@{}> doesnt\'t have an items.'.format(plid)
 #    else:
