@@ -72,7 +72,7 @@ async def on_message(message):
             await client.send_message(message.channel, com.delchar(message.author.id))
         elif len(shplit(message.content)) == 2:
             if message.author.id == dmid:
-                await client.send_message(message.channel, com.delchar(shplit(message.connect)[1]))
+                await client.send_message(message.channel, com.delchar(shplit(message.content)[1]))
             else:
                 await client.send_message(message.channel, 'Access denied!')
         else:
