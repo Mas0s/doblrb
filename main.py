@@ -2,7 +2,7 @@
 
 import discord
 import modules.commands as com
-import modules.service as srv
+import modules.extralib as srv
 import asyncio
 from shlex import split as shplit
 from platform import python_version
