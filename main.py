@@ -16,10 +16,10 @@ man = {
     'ping': 'Syntax: `*ping`',
     'getstats': 'Syntax: `*getstats`',
     'mkchar': 'Syntax: `*mkchar`',
-    'man': 'Syntax: `*man <command>`',
+    'man': 'Syntax: `*man [command]`',
     'putpoint': 'Syntax: `*putpoint <stat> [number]`',
     'delchar': 'Syntax: `*delchar`',
-    'man': 'Syntax: `*man [command]`'
+    'enter': 'Syntax: `*enter`'
 }
 
 ingame = []
