@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import modules.extralib as ext
 
 statList = ['strength','dexterity','intelligence']
 
@@ -7,15 +8,11 @@ def ping():
     return 'Pong!'
 
 def mkchar(plid):
+    if ext.plExist(plid):
+        return '<@{}> already has a character.'.format(plid)
     data = sqlite3.connect('database.db')
     c = data.cursor()
-    # id, level, strength, dexterity, intelligence, charpts, maxhp, hp
-    # CREATE TABLE players (id text, level integer, strength integer, dexterity integer, intelligence integer, charpts integer, maxhp integer, hp integer)
     c.execute('SELECT * FROM players WHERE id=?',[plid])
-    if not (c.fetchone() is None):
-        data.commit()
-        data.close()
-        return '<@{}> already has a character.'.format(plid)
     stats = (plid,0,0,0,0,1,250,250)
     c.execute('INSERT INTO players VALUES (?,?,?,?,?,?,?,?)', stats)
     data.commit()
@@ -28,12 +25,12 @@ def mkchar(plid):
     return '<@{}>\'s character has been created.'.format(plid)
 
 def getstats(plid):
+    if not ext.plExist(plid):
+        return '<@{}> doesn\'t have a character.'.format(plid)
     data = sqlite3.connect('database.db')
     c = data.cursor()
     c.execute('SELECT * FROM players WHERE id=?', [plid])
     stats = c.fetchone()
-    if stats is None:
-        return '<@{}> doesn\'t have a character.'.format(plid)
     data.commit()
     data.close()
     stats = """```markdown
