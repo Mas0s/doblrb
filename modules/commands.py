@@ -71,11 +71,11 @@ Stat Points {1[1]} (-{2})```""".format(upstat[stat],stats,num)
     return stats
 
 def delchar(plid):
+    if not ext.plExist(plid):
+        return '<@{}> doesn\'t have a character.'.format(plid)
     data = sqlite3.connect('database.db')
     c = data.cursor()
     c.execute('SELECT * FROM players WHERE id=?', [plid])
-    if c.fetchone() is None:
-        return '<@{}> doesn\'t have a character.'.format(plid)
     c.execute('DELETE FROM players WHERE id=?', [plid])
     data.commit()
     data.close()
