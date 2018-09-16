@@ -3,7 +3,7 @@
 import discord
 import modules.commands as com
 import modules.extralib as ext
-import asyncio
+# import asyncio
 from shlex import split as shplit
 from platform import python_version
 import os
@@ -25,13 +25,14 @@ man = {
 
 ingame = []
 
+
 @client.event
 async def on_ready():
     if os.path.isfile('.doblrest'):
-        with open('.doblrest','r') as tmp:
+        with open('.doblrest', 'r') as tmp:
             chan = tmp.read()
         os.remove('.doblrest')
-        await client.send_message(discord.Object(chan),'Restart successul.')
+        await client.send_message(discord.Object(chan), 'Restart successul.')
     print('Logged in as '+client.user.name+' (ID:'+client.user.id+') | Connected to '+str(len(client.servers))+' servers | Connected to '+str(len(set(client.get_all_members())))+' users')
     print('--------')
     print('Current Discord.py Version: {} | Current Python Version: {}'.format(discord.__version__, python_version()))
@@ -40,6 +41,7 @@ async def on_ready():
     print('https://discordapp.com/oauth2/authorize?client_id={}&scope=bot&permissions=8'.format(client.user.id))
     print('--------')
     await client.change_presence(game=discord.Game(name='w/ code'))
+
 
 @client.event
 async def on_message(message):
@@ -91,7 +93,7 @@ async def on_message(message):
     elif message.content.startswith('*restart'):
         if len(shplit(message.content)) == 1:
             if message.author.id == dmid:
-                with open('.doblrest','w') as tmp:
+                with open('.doblrest', 'w') as tmp:
                     tmp.write(message.channel.id)
                 os.execv(__file__, sys.argv)
             else:
@@ -103,7 +105,7 @@ async def on_message(message):
                 raise SystemExit
             else:
                 await client.send_message(message.channel, 'Access denied!')
-    elif message.content.startswith('*enter'): # +init tracker
+    elif message.content.startswith('*enter'):  # +init tracker
         if message.author.id in ingame:
             await client.send_message(message.channel, 'You\'re already in the Dungeon!')
         else:
@@ -121,16 +123,16 @@ async def on_message(message):
                         if resp is None:
                             await client.send_message(message.channel, 'Timeout.')
                             await client.send_message(message.channel, '<@{}> does nothing.'.format(ingame[curTurn]))
-                            curTurn+=1
+                            curTurn += 1
                             if curTurn >= len(ingame):
-                                curTurn-=len(ingame)
+                                curTurn -= len(ingame)
                             continue
                         else:
                             turn = resp.content
                         if turn not in actions:
                             await client.send_message(message.channel, 'Invalid turn.')
                             await client.send_message(message.channel, '<@{}> does nothing.'.format(ingame[curTurn]))
-                            curTurn+=1
+                            curTurn += 1
                         else:
                             if turn == 'L':
                                 canLeave = True
@@ -167,9 +169,9 @@ async def on_message(message):
                             else:
                                 if turn == 'n':
                                     await client.send_message(message.channel, '<@{}> does nothing.'.format(ingame[curTurn]))
-                                curTurn+=1
+                                curTurn += 1
                         if curTurn >= len(ingame):
-                            curTurn-=len(ingame)
+                            curTurn -= len(ingame)
 
 with open('token.txt') as f:
     token = f.read()
