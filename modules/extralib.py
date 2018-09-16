@@ -1,6 +1,9 @@
 import sqlite3
 
-possActions = {'n': 'n - do nothing', 'L': 'L - leave the dungeon'}
+possActions = {
+    'n': 'n - do nothing',
+    'L': 'L - leave the dungeon'
+}
 
 def plExist(plid):
     data = sqlite3.connect('database.db')
